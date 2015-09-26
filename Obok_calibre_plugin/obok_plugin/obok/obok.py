@@ -1,6 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# Version 3.1.5 September 2015
+# Removed requirement that a purchase has been made.
+# Also add in character encoding fixes
+#
+# Version 3.1.4 September 2015
+# Updated for version 3.17 of the Windows Desktop app.
+#
 # Version 3.1.3 August 2015
 # Add translations for Portuguese and Arabic
 #
@@ -112,7 +119,7 @@
 #
 """Manage all Kobo books, either encrypted or DRM-free."""
 
-__version__ = '3.1.3'
+__version__ = '3.1.5'
 
 import sys
 import os
@@ -212,6 +219,24 @@ def _load_crypto():
 
 AES = _load_crypto()
 
+# Wrap a stream so that output gets flushed immediately
+# and also make sure that any unicode strings get
+# encoded using "replace" before writing them.
+class SafeUnbuffered:
+    def __init__(self, stream):
+        self.stream = stream
+        self.encoding = stream.encoding
+        if self.encoding == None:
+            self.encoding = "utf-8"
+    def write(self, data):
+        if isinstance(data,unicode):
+            data = data.encode(self.encoding,"replace")
+        self.stream.write(data)
+        self.stream.flush()
+    def __getattr__(self, attr):
+        return getattr(self.stream, attr)
+
+
 class KoboLibrary(object):
     """The Kobo library.
 
@@ -220,7 +245,7 @@ class KoboLibrary(object):
     of books, their titles, and the user's encryption key(s)."""
 
     def __init__ (self):
-        print u"Obok v{0}\nCopyright © 2012-2014 Physisticated et al.".format(__version__)
+        print u"Obok v{0}\nCopyright © 2012-2015 Physisticated et al.".format(__version__)
         if sys.platform.startswith('win'):
             if sys.getwindowsversion().major > 5:
                 self.kobodir = os.environ['LOCALAPPDATA']
@@ -249,9 +274,8 @@ class KoboLibrary(object):
         """
         if len(self._userkeys) != 0:
             return self._userkeys
-        userid = self.__getuserid()
         for macaddr in self.__getmacaddrs():
-            self._userkeys.append(self.__getuserkey(macaddr, userid))
+            self._userkeys.extend(self.__getuserkeys(macaddr))
         return self._userkeys
 
     @property
@@ -297,13 +321,33 @@ class KoboLibrary(object):
                 macaddrs.append(m[0].upper())
         return macaddrs
 
-    def __getuserid (self):
-        return self.__cursor.execute('SELECT UserID FROM user WHERE HasMadePurchase = "true"').fetchone()[0]
-
-    def __getuserkey (self, macaddr, userid):
+    def __getuserids (self):
+        userids = []
+        cursor = self.__cursor.execute('SELECT UserID FROM user')
+        row = cursor.fetchone()
+        while row is not None:
+            try:
+                userid = row[0]
+                userids.append(userid)
+            except:
+                pass
+            row = cursor.fetchone()
+        return userids
+               
+    def __getuserkeys (self, macaddr):
+        userids = self.__getuserids()
+        userkeys = []
+        # This version is used for versions before 3.17.0.
         deviceid = hashlib.sha256('NoCanLook' + macaddr).hexdigest()
-        userkey = hashlib.sha256(deviceid + userid).hexdigest()
-        return binascii.a2b_hex(userkey[32:])
+        for userid in userids:
+            userkey = hashlib.sha256(deviceid + userid).hexdigest()
+            userkeys.append(binascii.a2b_hex(userkey[32:]))
+        # This version is used for 3.17.0 and later.
+        deviceid = hashlib.sha256('XzUhGYdFp' + macaddr).hexdigest()
+        for userid in userids:
+            userkey = hashlib.sha256(deviceid + userid).hexdigest()
+            userkeys.append(binascii.a2b_hex(userkey[32:]))
+        return userkeys
 
 class KoboBook(object):
     """A Kobo book.
@@ -438,12 +482,11 @@ class KoboFile(object):
             contents = contents[:-padding]
         return contents
 
-if __name__ == '__main__':
-
+def cli_main():
     lib = KoboLibrary()
 
     for i, book in enumerate(lib.books):
-        print ('%d: %s' % (i + 1, book.title)).encode('ascii', 'ignore')
+        print ('%d: %s' % (i + 1, book.title))
 
     num_string = raw_input("Convert book number... ")
     try:
@@ -456,7 +499,7 @@ if __name__ == '__main__':
 
     zin = zipfile.ZipFile(book.filename, "r")
     # make filename out of Unicode alphanumeric and whitespace equivalents from title
-    outname = "%s.epub" % (re.sub('[^\s\w]', '', book.title, 0, re.UNICODE))
+    outname = "%s.epub" % (re.sub('[^\s\w]', '_', book.title, 0, re.UNICODE))
 
     if (book.type == 'drm-free'):
         print "DRM-free book, conversion is not needed"
@@ -490,4 +533,9 @@ if __name__ == '__main__':
 
     zin.close()
     lib.close()
-    exit(result)
+    return result
+
+if __name__ == '__main__':
+    sys.stdout=SafeUnbuffered(sys.stdout)
+    sys.stderr=SafeUnbuffered(sys.stderr)
+    sys.exit(cli_main())

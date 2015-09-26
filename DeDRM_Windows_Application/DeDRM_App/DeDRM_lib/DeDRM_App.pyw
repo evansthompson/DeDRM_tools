@@ -17,8 +17,15 @@
 #   6.3.0 - Add in Android support
 #   6.3.1 - Version bump for clarity
 #   6.3.2 - Version bump to match plugin
+<<<<<<< HEAD:DeDRM_Windows_Application/DeDRM_App/DeDRM_lib/DeDRM_app.pyw
 
 __version__ = '6.3.2'
+=======
+#   6.3.3 - Version bump to match plugin
+#   6.3.4 - Version bump to match plugin
+
+__version__ = '6.3.4'
+>>>>>>> apprenticeharper/master:DeDRM_Windows_Application/DeDRM_App/DeDRM_lib/DeDRM_App.pyw
 
 import sys
 import os, os.path
