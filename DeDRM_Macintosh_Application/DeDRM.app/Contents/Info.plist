@@ -25,9 +25,13 @@
 	<string>droplet</string>
 	<key>CFBundleGetInfoString</key>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<string>DeDRM AppleScript 6.3.2 Written 2010–2015 by Apprentice Alf et al.</string>
 =======
 	<string>DeDRM AppleScript 6.3.4 Written 2010–2015 by Apprentice Alf et al.</string>
+>>>>>>> apprenticeharper/master
+=======
+	<string>DeDRM AppleScript 6.3.6 Written 2010–2016 by Apprentice Alf et al.</string>
 >>>>>>> apprenticeharper/master
 	<key>CFBundleIconFile</key>
 	<string>DeDRM</string>
@@ -41,9 +45,13 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 <<<<<<< HEAD
+<<<<<<< HEAD
 	<string>6.3.2</string>
 =======
 	<string>6.3.4</string>
+>>>>>>> apprenticeharper/master
+=======
+	<string>6.3.6</string>
 >>>>>>> apprenticeharper/master
 	<key>CFBundleSignature</key>
 	<string>dplt</string>

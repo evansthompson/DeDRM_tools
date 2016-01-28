@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # DeDRM.pyw
-# Copyright 2010-2015 some_updates, Apprentice Alf and Apprentice Harper
+# Copyright 2010-2016 some_updates, Apprentice Alf and Apprentice Harper
 
 # Revision history:
 #   6.0.0 - Release along with unified plugin
@@ -23,9 +23,15 @@ __version__ = '6.3.2'
 =======
 #   6.3.3 - Version bump to match plugin
 #   6.3.4 - Version bump to match plugin
+#   6.3.5 - Version bump to match plugin
+#   6.3.6 - Version bump to match plugin
 
+<<<<<<< HEAD
 __version__ = '6.3.4'
 >>>>>>> apprenticeharper/master:DeDRM_Windows_Application/DeDRM_App/DeDRM_lib/DeDRM_App.pyw
+=======
+__version__ = '6.3.6'
+>>>>>>> apprenticeharper/master
 
 import sys
 import os, os.path
