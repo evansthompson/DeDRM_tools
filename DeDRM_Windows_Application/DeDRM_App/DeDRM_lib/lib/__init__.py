@@ -42,24 +42,15 @@ __docformat__ = 'restructuredtext en'
 #   6.3.0 - Added in Kindle for Android serial number solution
 #   6.3.1 - Version number bump for clarity
 #   6.3.2 - Fixed Kindle for Android help file
-<<<<<<< HEAD
-=======
 #   6.3.3 - Bug fix for Kindle for PC support
 #   6.3.4 - Fixes for Kindle for Android, Linux, and Kobo 3.17
-<<<<<<< HEAD
->>>>>>> apprenticeharper/master
-=======
 #   6.3.5 - Fixes for Linux, and Kobo 3.19 and more logging
 #   6.3.6 - Fixes for ADE ePub and PDF introduced in 6.3.5
-<<<<<<< HEAD
->>>>>>> apprenticeharper/master
-=======
 #   6.4.0 - Updated for new Kindle for PC encryption
 #   6.4.1 - Fix for some new tags in Topaz ebooks.
 #   6.4.2 - Fix for more new tags in Topaz ebooks and very small Topaz ebooks
 #   6.4.3 - Fix for error that only appears when not in debug mode
 #           Also includes fix for Macs with bonded ethernet ports
->>>>>>> apprenticeharper/master
 
 
 """
@@ -67,19 +58,7 @@ Decrypt DRMed ebooks.
 """
 
 PLUGIN_NAME = u"DeDRM"
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-PLUGIN_VERSION_TUPLE = (6, 3, 2)
-=======
-PLUGIN_VERSION_TUPLE = (6, 3, 4)
->>>>>>> apprenticeharper/master
-=======
-PLUGIN_VERSION_TUPLE = (6, 3, 6)
->>>>>>> apprenticeharper/master
-=======
 PLUGIN_VERSION_TUPLE = (6, 4, 3)
->>>>>>> apprenticeharper/master
 PLUGIN_VERSION = u".".join([unicode(str(x)) for x in PLUGIN_VERSION_TUPLE])
 # Include an html helpfile in the plugin's zipfile with the following name.
 RESOURCE_NAME = PLUGIN_NAME + '_Help.htm'
@@ -560,7 +539,7 @@ class DeDRM(FileTypePlugin):
             if len(newkeys) > 0:
                 print u"{0} v{1}: Found {2} new {3}".format(PLUGIN_NAME, PLUGIN_VERSION, len(newkeys), u"key" if len(newkeys)==1 else u"keys")
                 try:
-                    book = k4mobidedrm.GetDecryptedBook(path_to_ebook,newkeys.items(),[],[],self.starttime)
+                    book = k4mobidedrm.GetDecryptedBook(path_to_ebook,newkeys.items(),[],[],[],self.starttime)
                     decoded = True
                     # store the new successful keys in the defaults
                     print u"{0} v{1}: Saving {2} new {3}".format(PLUGIN_NAME, PLUGIN_VERSION, len(newkeys), u"key" if len(newkeys)==1 else u"keys")
