@@ -9,8 +9,6 @@ __docformat__ = 'restructuredtext en'
 # Released under the terms of the GNU General Public Licence, version 3
 # <http://www.gnu.org/licenses/>
 #
-# Requires Calibre version 0.7.55 or higher.
-#
 # All credit given to i♥cabbages and The Dark Reverser for the original standalone scripts.
 # We had the much easier job of converting them to a calibre plugin.
 #
@@ -53,6 +51,14 @@ __docformat__ = 'restructuredtext en'
 =======
 #   6.3.5 - Fixes for Linux, and Kobo 3.19 and more logging
 #   6.3.6 - Fixes for ADE ePub and PDF introduced in 6.3.5
+<<<<<<< HEAD
+>>>>>>> apprenticeharper/master
+=======
+#   6.4.0 - Updated for new Kindle for PC encryption
+#   6.4.1 - Fix for some new tags in Topaz ebooks.
+#   6.4.2 - Fix for more new tags in Topaz ebooks and very small Topaz ebooks
+#   6.4.3 - Fix for error that only appears when not in debug mode
+#           Also includes fix for Macs with bonded ethernet ports
 >>>>>>> apprenticeharper/master
 
 
@@ -63,12 +69,16 @@ Decrypt DRMed ebooks.
 PLUGIN_NAME = u"DeDRM"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 PLUGIN_VERSION_TUPLE = (6, 3, 2)
 =======
 PLUGIN_VERSION_TUPLE = (6, 3, 4)
 >>>>>>> apprenticeharper/master
 =======
 PLUGIN_VERSION_TUPLE = (6, 3, 6)
+>>>>>>> apprenticeharper/master
+=======
+PLUGIN_VERSION_TUPLE = (6, 4, 3)
 >>>>>>> apprenticeharper/master
 PLUGIN_VERSION = u".".join([unicode(str(x)) for x in PLUGIN_VERSION_TUPLE])
 # Include an html helpfile in the plugin's zipfile with the following name.
@@ -101,8 +111,12 @@ class SafeUnbuffered:
     def write(self, data):
         if isinstance(data,unicode):
             data = data.encode(self.encoding,"replace")
-        self.stream.write(data)
-        self.stream.flush()
+        try:
+            self.stream.write(data)
+            self.stream.flush()
+        except:
+            # We can do nothing if a write fails
+            pass
     def __getattr__(self, attr):
         return getattr(self.stream, attr)
 

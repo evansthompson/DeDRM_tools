@@ -25,12 +25,21 @@ __version__ = '6.3.2'
 #   6.3.4 - Version bump to match plugin
 #   6.3.5 - Version bump to match plugin
 #   6.3.6 - Version bump to match plugin
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 __version__ = '6.3.4'
 >>>>>>> apprenticeharper/master:DeDRM_Windows_Application/DeDRM_App/DeDRM_lib/DeDRM_App.pyw
 =======
 __version__ = '6.3.6'
+>>>>>>> apprenticeharper/master
+=======
+#   6.4.0 - Fix for Kindle for PC encryption change
+#   6.4.1 - Fix for new tags in Topaz ebooks
+#   6.4.2 - Fix for new tags in Topaz ebooks, and very small Topaz ebooks
+#   6.4.3 - Version bump to match plugin & Mac app
+
+__version__ = '6.4.3'
 >>>>>>> apprenticeharper/master
 
 import sys

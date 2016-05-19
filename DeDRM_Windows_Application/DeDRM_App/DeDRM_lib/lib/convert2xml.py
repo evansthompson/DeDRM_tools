@@ -164,6 +164,7 @@ class PageParser(object):
         self.id = os.path.basename(filename).replace('.dat','')
         self.dict = dict
         self.debug = debug
+        self.first_unknown = True
         self.flat_xml = flat_xml
         self.tagpath = []
         self.doc = []
@@ -262,6 +263,9 @@ class PageParser(object):
         'img.w'                 : (1, 'scalar_number', 0, 0),
         'img.src'               : (1, 'scalar_number', 0, 0),
         'img.color_src'         : (1, 'scalar_number', 0, 0),
+        'img.gridSize'          : (1, 'scalar_number', 0, 0),
+        'img.gridBottomCenter'  : (1, 'scalar_number', 0, 0),
+        'img.gridTopCenter'     : (1, 'scalar_number', 0, 0),
         'img.gridBeginCenter'   : (1, 'scalar_number', 0, 0),
         'img.gridEndCenter'     : (1, 'scalar_number', 0, 0),
         'img.image_type'        : (1, 'scalar_number', 0, 0),
@@ -313,11 +317,16 @@ class PageParser(object):
         'span.gridBeginCenter' : (1, 'scalar_number', 0, 0),
         'span.gridEndCenter' : (1, 'scalar_number', 0, 0),
 
-        'extratokens'            : (1, 'snippets', 1, 0),
-        'extratokens.class'      : (1, 'scalar_text', 0, 0),
-        'extratokens.type'       : (1, 'scalar_text', 0, 0),
-        'extratokens.firstGlyph' : (1, 'scalar_number', 0, 0),
-        'extratokens.lastGlyph'  : (1, 'scalar_number', 0, 0),
+        'extratokens'                   : (1, 'snippets', 1, 0),
+        'extratokens.class'             : (1, 'scalar_text', 0, 0),
+        'extratokens.type'              : (1, 'scalar_text', 0, 0),
+        'extratokens.firstGlyph'        : (1, 'scalar_number', 0, 0),
+        'extratokens.lastGlyph'         : (1, 'scalar_number', 0, 0),
+        'extratokens.gridSize'          : (1, 'scalar_number', 0, 0),
+        'extratokens.gridBottomCenter'  : (1, 'scalar_number', 0, 0),
+        'extratokens.gridTopCenter'     : (1, 'scalar_number', 0, 0),
+        'extratokens.gridBeginCenter'   : (1, 'scalar_number', 0, 0),
+        'extratokens.gridEndCenter'     : (1, 'scalar_number', 0, 0),
 
         'glyph.h'      : (1, 'number', 0, 0),
         'glyph.w'      : (1, 'number', 0, 0),
@@ -506,8 +515,9 @@ class PageParser(object):
         # or an out of sync condition
         else:
             result = []
-            if (self.debug):
+            if (self.debug or self.first_unknown):
                 print 'Unknown Token:', token
+                self.first_unknown = False
             self.tag_pop()
             return result
 

@@ -1,3 +1,5 @@
+*.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.pyc
@@ -94,3 +96,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+*.zip
